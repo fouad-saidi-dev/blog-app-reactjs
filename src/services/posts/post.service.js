@@ -2,11 +2,22 @@ import httpCommon from "../http-common"
 
 
 const getPosts = () => {
-    return httpCommon.get(`/posts`)
+    return httpCommon.get('/posts')
+}
+
+const addPost = (title,body) => {
+
+    const reqData = {
+        title,
+        body
+    } 
+
+    return httpCommon.post('/posts/create',reqData)
 }
 
 const postService = {
-    getPosts
+    getPosts,
+    addPost
 }
 
 export default postService;
