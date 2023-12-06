@@ -1,14 +1,16 @@
 import httpCommon from "../http-common"
 
 
+
 const getPosts = () => {
     return httpCommon.get('/posts')
 }
 
-const addPost = (title,body) => {
+const addPost = (title,description,body) => {
 
     const reqData = {
         title,
+        description,
         body
     } 
 

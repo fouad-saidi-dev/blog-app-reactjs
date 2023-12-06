@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import userService from "../../services/users/user.service";
 import {
+  Fab,
   Paper,
   Table,
   TableBody,
@@ -10,6 +11,7 @@ import {
   TableRow,
   tableCellClasses,
 } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 import { styled } from "@mui/material/styles";
 import axios from "axios";
 
@@ -73,21 +75,30 @@ export default function DipslayUsers(params) {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+            
+            <StyledTableCell align="center">First Name</StyledTableCell>
+            <StyledTableCell align="center">Last Name</StyledTableCell>
+            <StyledTableCell align="center">Email</StyledTableCell>
+            <StyledTableCell align="center">Phone</StyledTableCell>
+            <StyledTableCell align="center">Actions</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {users.map((row) => (
-            <StyledTableRow key={row.firstName}>
-              <StyledTableCell component="th" scope="row"></StyledTableCell>
-              <StyledTableCell align="right">{row.firstName}</StyledTableCell>
-              <StyledTableCell align="right">{row.lastName}</StyledTableCell>
-              <StyledTableCell align="right">{row.email}</StyledTableCell>
-              <StyledTableCell align="right">{row.phone}</StyledTableCell>
+            <StyledTableRow key={row.userId}>
+              <StyledTableCell align="center">{row.firstName}</StyledTableCell>
+              <StyledTableCell align="center">{row.lastName}</StyledTableCell>
+              <StyledTableCell align="center">{row.email}</StyledTableCell>
+              <StyledTableCell align="center">{row.phone}</StyledTableCell>
+              <StyledTableCell align="center">
+                <Fab color="primary" aria-label="add"
+                sx={{
+                  width:"35px",
+                  height:"30px"
+                }}>
+                  <AddIcon />
+                </Fab>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

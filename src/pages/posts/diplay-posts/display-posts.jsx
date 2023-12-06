@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import postService from "../../../services/posts/post.service";
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Grid, Typography } from "@mui/material";
 
 export default function DisplayPosts(params) {
   const [posts, setPosts] = useState([]);
@@ -23,13 +23,15 @@ export default function DisplayPosts(params) {
 
   return(
     <>
+    <Grid container sx={{mt:"3%"}} spacing={2}>
     {posts.map((post) => (
+      <Grid item xs={12} sm={6} md={4}>
         <Card sx={{ maxWidth: 345 }}>
         <CardActionArea>
           <CardMedia
             component="img"
             height="140"
-            image="/static/images/cards/contemplative-reptile.jpg"
+            image="https://cdn2.thecatapi.com/images/3KG57GfMW.jpg"
             alt="green iguana"
           />
           <CardContent>
@@ -37,32 +39,26 @@ export default function DisplayPosts(params) {
               {post.title}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {post.body}
+              {post.description}
             </Typography>
           </CardContent>
         </CardActionArea>
+        <Chip 
+        label={new Date(post.createdAt).toLocaleString()}
+        sx={{
+          height : "15px",
+          fontSize: "10px",
+          float : "right",
+          m: "2px"
+        }} />
         <CardActions>
+        
           <Button size="small" color="primary">
             Share
           </Button>
         </CardActions>
       </Card>
-    ))}</>
+     </Grid>
+    ))} </Grid></>
   )
-
-  return (
-    <table>
-      <thead>
-        <tr>title</tr>
-        <tr>body</tr>
-      </thead>
-      <tbody>
-        {posts.map((post) => (
-          <tr>
-            <td>{post.title}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
 }

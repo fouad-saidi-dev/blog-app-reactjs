@@ -1,11 +1,11 @@
 import postService from "./post.service"
 
 
-const addPost = (ev,title,body) => {
+const addPost = (ev,title,description,body) => {
 
     ev.preventDefault();
 
-    postService.addPost(title,body)
+    postService.addPost(title,description,body)
     .then((res) => {
         console.log(res)
     })
@@ -14,8 +14,13 @@ const addPost = (ev,title,body) => {
     })
 }
 
+const editPost = () => {
+
+}
+
 const postApi = {
-   addPost
+   addPost,
+   editPost
 }
 
 export default postApi;

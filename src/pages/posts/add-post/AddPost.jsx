@@ -1,18 +1,31 @@
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Paper, Snackbar, TextField, Typography } from "@mui/material";
 import { React, useState } from "react";
 import postApi from "../../../services/posts/post-api";
+import MuiAlert from '@mui/material/Alert';
 
 export default function AddPost(params) {
   const [title_, setTitle] = useState("");
   const [body_, setBody] = useState("");
+  const [description_,setDescrip] = useState("")
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('success');
+
+  const handleAlertClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenAlert(false);
+  };
 
   const add_post = (e) => {
     e.preventDefault();
 
-    postApi.addPost(e, title_, body_);
+    postApi.addPost(e, title_, description_, body_)
   };
 
   return (
+    <>
     <Paper
       sx={{
         width: "400px",
@@ -45,11 +58,20 @@ export default function AddPost(params) {
           />{" "}
           <br />
           <TextField
+            name="description"
+            value={description_}
+            onChange={(ev) => setDescrip(ev.target.value)}
+            required
+            label="Description"
+            sx={{ marginTop: "10px" }}
+          />{" "}
+          <br />
+          <TextField
             name="body"
             value={body_}
             onChange={(ev) => setBody(ev.target.value)}
             required
-            label="Write ..."
+            label="Body"
             sx={{ marginTop: "10px" }}
           />{" "}
           <br />
@@ -69,5 +91,7 @@ export default function AddPost(params) {
         </form>
       </Box>
     </Paper>
+    
+  </>
   );
 }
