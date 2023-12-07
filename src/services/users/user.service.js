@@ -20,10 +20,15 @@ import http from "../http-common"
         return http.post(`/users/add-user`,reqData)
     }
 
+    const deleteUser = (id) => {
+        return http.delete(`/users/${id}`)
+    }
+
     const userService = {
         getUsers,
         login,
-        register
+        register,
+        deleteUser
     }
 
     export default userService;

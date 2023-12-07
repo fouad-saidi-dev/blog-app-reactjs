@@ -2,18 +2,14 @@ import { Box, Button, Paper, Snackbar, TextField, Typography } from "@mui/materi
 import { React, useState } from "react";
 import postApi from "../../../services/posts/post-api";
 import MuiAlert from '@mui/material/Alert';
+import { useParams } from "react-router-dom";
 
-export default function AddPost(params) {
+export default function EditPost(params) {
   const [title_, setTitle] = useState("");
   const [body_, setBody] = useState("");
   const [description_,setDescrip] = useState("")
+  const { postId } = useParams();
 
-
-  const add_post = (e) => {
-    e.preventDefault();
-
-    postApi.addPost(e, title_, description_, body_)
-  };
 
   const edit_post = (e,id) => {
     e.preventDefault()
@@ -45,7 +41,7 @@ export default function AddPost(params) {
           Create your post here
         </Typography>{" "}
         <br />
-        <form onSubmit={(e) => add_post(e)}>
+        <form onSubmit={(e) => edit_post(e,postId)}>
           <TextField
             name="title"
             value={title_}

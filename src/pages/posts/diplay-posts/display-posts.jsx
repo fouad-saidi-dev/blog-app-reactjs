@@ -1,6 +1,8 @@
 import { React, useEffect, useState } from "react";
 import postService from "../../../services/posts/post.service";
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Grid, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
+
 
 export default function DisplayPosts(params) {
   const [posts, setPosts] = useState([]);
@@ -53,9 +55,12 @@ export default function DisplayPosts(params) {
         }} />
         <CardActions>
         
-          <Button size="small" color="primary">
+        <Link to={`/post/${post.postId}`} className='btn btn-success me-2'>
+         Edit
+        </Link>
+          {/* <Button size="small" color="primary">
             Share
-          </Button>
+          </Button> */}
         </CardActions>
       </Card>
      </Grid>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import userService from "../../services/users/user.service";
 import {
-  Fab,
   Paper,
   Table,
   TableBody,
@@ -11,9 +10,11 @@ import {
   TableRow,
   tableCellClasses,
 } from "@mui/material";
+import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import { styled } from "@mui/material/styles";
 import axios from "axios";
+import userApi from "../../services/users/user-api";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -66,6 +67,20 @@ export default function DipslayUsers(params) {
       });
   };
 
+  const deleteUser = (id) => {
+    userApi.deleteUser(id);
+  }
+
+  const deleteU = (id) => {
+    userService.deleteUser(id)
+    .then((res) => {
+      console.log(res)
+      setUsers()
+    }).catch((er) => {
+      console.log(er)
+    })
+  }
+
   useEffect(() => {
     getUsers();
   }, []);
@@ -91,13 +106,7 @@ export default function DipslayUsers(params) {
               <StyledTableCell align="center">{row.email}</StyledTableCell>
               <StyledTableCell align="center">{row.phone}</StyledTableCell>
               <StyledTableCell align="center">
-                <Fab color="primary" aria-label="add"
-                sx={{
-                  width:"35px",
-                  height:"30px"
-                }}>
-                  <AddIcon />
-                </Fab>
+                <Button variant="contained" onClick={() => deleteU(row.userId)}>Delete</Button>
               </StyledTableCell>
             </StyledTableRow>
           ))}
