@@ -20,6 +20,15 @@ import http from "../http-common"
         return http.post(`/users/add-user`,reqData)
     }
 
+    const updateUser = (id,firstName,lastName,phone) => {
+        const reqData = {
+            firstName,
+            lastName,
+            phone
+        }
+        return http.post(`/users/${id}`,reqData)
+    }
+
     const deleteUser = (id) => {
         return http.delete(`/users/${id}`)
     }
@@ -28,6 +37,7 @@ import http from "../http-common"
         getUsers,
         login,
         register,
+        updateUser,
         deleteUser
     }
 

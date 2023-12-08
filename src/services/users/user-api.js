@@ -1,5 +1,11 @@
 import userService from "./user.service"
 
+const updateUser = (ev,id,) => {
+ 
+    ev.preventDefault();
+    
+    userService.updateUser().then().catch()
+}
 
 const deleteUser = (id) => {
 
@@ -13,6 +19,7 @@ const deleteUser = (id) => {
 }
 
 const userApi = {
+    updateUser,
     deleteUser
 }
 

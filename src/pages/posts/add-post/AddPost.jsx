@@ -26,7 +26,7 @@ export default function AddPost(params) {
     <>
     <Paper
       sx={{
-        width: "400px",
+        width: "800px",
         mr: "auto",
         ml: "auto",
       }}
@@ -52,7 +52,7 @@ export default function AddPost(params) {
             onChange={(ev) => setTitle(ev.target.value)}
             required
             label="Title"
-            sx={{ marginTop: "10px" }}
+            sx={{ marginTop: "10px" , width:"400px"}}
           />{" "}
           <br />
           <TextField
@@ -61,7 +61,7 @@ export default function AddPost(params) {
             onChange={(ev) => setDescrip(ev.target.value)}
             required
             label="Description"
-            sx={{ marginTop: "10px" }}
+            sx={{ marginTop: "10px" , width:"400px"}}
           />{" "}
           <br />
           <TextField
@@ -69,8 +69,10 @@ export default function AddPost(params) {
             value={body_}
             onChange={(ev) => setBody(ev.target.value)}
             required
+            multiline
+            rows={7}
             label="Body"
-            sx={{ marginTop: "10px" }}
+            sx={{ marginTop: "10px" , width:"400px"}}
           />{" "}
           <br />
           <Button
