@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { ButtonBase } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const pages = ['Blog', 'Posts', 'Contact'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -120,6 +121,7 @@ function ResponsiveAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
+              <Link to={'/posts'} style={{textDecoration:"none"}}>
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
@@ -127,6 +129,7 @@ function ResponsiveAppBar() {
               >
                 {page}
               </Button>
+              </Link>
             ))}
           </Box>
 

@@ -13,9 +13,13 @@ import {
   ListItemText,
   Divider,
   TextField,
+  Avatar,
+  ListItemAvatar,
 } from "@mui/material";
 import postService from "../../../services/posts/post.service";
 import { styled } from "@mui/material/styles";
+import commentService from "../../../services/comments/comment.service";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -25,24 +29,18 @@ const ShowPost = () => {
   const { postId } = useParams();
   const [post, setPost] = useState(null);
   const [filteredPosts, setFilterPosts] = useState([]);
+  const [comments, setComments] = useState([]);
 
-  const endDate = new Date();
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 5);
-
-  const getPosts = () => {
-    postService.getPosts().then((res) => {
-      setFilterPosts(res.data);
-    });
-  };
-
-  const filterPosts = () => {
-    const filtered = filteredPosts.filter((pst) => {
-      const postDate = new Date(pst.createdAt);
-      return postDate >= startDate && postDate <= endDate;
-    });
-
-    setFilterPosts(filtered);
+  const fetchComments = () => {
+    commentService
+      .getComments(postId)
+      .then((res) => {
+        console.log(res);
+        setComments(res.data);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
   };
 
   useEffect(() => {
@@ -68,6 +66,8 @@ const ShowPost = () => {
     };
 
     fetchData();
+
+    fetchComments();
 
     postService
       .showPost(postId)
@@ -125,6 +125,28 @@ const ShowPost = () => {
               {post.body}
             </Typography>
           </Stack>
+          <Divider sx={{ mt: "4%" }} />
+          <Stack>
+            <Typography fontSize={"30px"} fontFamily={"inherit"}>
+              Comments
+            </Typography>
+          </Stack>
+          <Stack>
+            <Demo>
+              <List>
+                {comments.map((cmnt) => (
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <AccountCircleIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={cmnt.comment} />
+                  </ListItem>
+                ))}
+              </List>
+            </Demo>
+          </Stack>
         </Grid>
         <Grid item xs={6} md={4}>
           <Stack>
@@ -134,8 +156,8 @@ const ShowPost = () => {
               type="search"
             />
           </Stack>
-          <Stack sx={{mt:"3%"}}>
-            <Typography fontSize={'30px'}>Recent Posts</Typography>
+          <Stack sx={{ mt: "3%" }}>
+            <Typography fontSize={"30px"}>Recent Posts</Typography>
           </Stack>
           <Demo>
             <List

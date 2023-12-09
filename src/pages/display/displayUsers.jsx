@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import userService from "../../services/users/user.service";
 import {
+  IconButton,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -10,11 +12,12 @@ import {
   TableRow,
   tableCellClasses,
 } from "@mui/material";
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from '@mui/icons-material/Edit';
 import { styled } from "@mui/material/styles";
 import axios from "axios";
 import userApi from "../../services/users/user-api";
+import { Link } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -69,28 +72,36 @@ export default function DipslayUsers(params) {
 
   const deleteUser = (id) => {
     userApi.deleteUser(id);
-  }
+  };
+
+  
+  
+      
+  
 
   const deleteU = (id) => {
-    userService.deleteUser(id)
-    .then((res) => {
-      console.log(res)
-      setUsers()
-    }).catch((er) => {
-      console.log(er)
-    })
-  }
+    if (window.confirm("Vous avez supprime cette user?")) {
+    userService
+      .deleteUser(id)
+      .then((res) => {
+        console.log(res);
+        getUsers()
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+    }
+  };
 
   useEffect(() => {
     getUsers();
   }, []);
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+    <TableContainer component={Paper} >
+      <Table sx={{ minWidth: 400 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            
             <StyledTableCell align="center">First Name</StyledTableCell>
             <StyledTableCell align="center">Last Name</StyledTableCell>
             <StyledTableCell align="center">Email</StyledTableCell>
@@ -106,7 +117,18 @@ export default function DipslayUsers(params) {
               <StyledTableCell align="center">{row.email}</StyledTableCell>
               <StyledTableCell align="center">{row.phone}</StyledTableCell>
               <StyledTableCell align="center">
-                <Button variant="contained" onClick={() => deleteU(row.userId)}>Delete</Button>
+              <Stack direction="row" sx={{
+                width:"20px"
+              }} >
+                <IconButton aria-label="delete" size="large" onClick={() => deleteU(row.userId)}>
+                  <DeleteIcon fontSize="inherit" />
+                </IconButton>
+                <Link to={`/post/edit/${row.userId}`} style={{textDecoration:"none"}}>
+                <IconButton aria-label="edit" size="large">
+                  <EditIcon fontSize="inherit" />
+                </IconButton>
+                </Link>
+              </Stack>
               </StyledTableCell>
             </StyledTableRow>
           ))}
