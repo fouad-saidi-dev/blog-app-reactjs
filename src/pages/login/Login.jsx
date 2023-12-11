@@ -75,9 +75,9 @@ export default function Login() {
       .then((response) => {
         console.log(response)
         const token = response.data.token;
+        const userId = response.data.userId;
         localStorage.setItem("token", token);
-        //const user_id = res.data.user_id;
-        //localStorage.setItem("user_id", user_id);
+        localStorage.setItem("userId",userId);
       })
       .catch((err) => {
         console.log(err);

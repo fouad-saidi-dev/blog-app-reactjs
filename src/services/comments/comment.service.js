@@ -1,15 +1,21 @@
 import http from "../http-common"
 
 
-const addComt = () => {
+const addComt = (comment,postId) => {
 
+    const reqData = {
+        comment,
+        postId
+    }
+   return http.post('/comments/add',reqData)
 }
 
 const getComments = (id) => {
-   return http.get(`http://localhost:8081/comments/posts/${id}`)
+   return http.get(`/comments/posts/${id}`)
 }
 
 const commentService = {
+    addComt,
     getComments
 }
 

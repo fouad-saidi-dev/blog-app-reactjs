@@ -20,6 +20,8 @@ import postService from "../../../services/posts/post.service";
 import { styled } from "@mui/material/styles";
 import commentService from "../../../services/comments/comment.service";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import commentApi from "../../../services/comments/comment-api";
+import likePosteService from "../../../services/likes/like-posts/like-posts.service";
 
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -30,7 +32,11 @@ const ShowPost = () => {
   const [post, setPost] = useState(null);
   const [filteredPosts, setFilterPosts] = useState([]);
   const [comments, setComments] = useState([]);
+  const [comment_, setComment] = useState("");
+  const [likePost,setLikePosts] = useState(null)
+  //const [id_, setId] = useState("");
 
+  // display comments
   const fetchComments = () => {
     commentService
       .getComments(postId)
@@ -43,11 +49,21 @@ const ShowPost = () => {
       });
   };
 
+  const likesPost = () => {
+    likePosteService.getLikesPost(postId)
+    .then((res) => {
+      console.log(res)
+      setLikePosts(res.data)
+    })
+    .catch((er) => {
+      console.log(er)
+    })
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await postService.getPosts();
-        console.log(response);
 
         // Filter posts created in the last 24 hours
         const endDate = new Date();
@@ -69,6 +85,8 @@ const ShowPost = () => {
 
     fetchComments();
 
+    likesPost();
+
     postService
       .showPost(postId)
       .then((res) => {
@@ -79,6 +97,14 @@ const ShowPost = () => {
         console.log(error);
       });
   }, [postId]);
+
+  const addComnt = (e) => {
+    e.preventDefault();
+
+    const response = commentApi.addComment(e, comment_, postId);
+    //console.log("response"+response)
+    //setComments((prevComments) => [...prevComments, response]);
+  };
 
   if (!post) {
     return <div>Loading...</div>;
@@ -126,6 +152,13 @@ const ShowPost = () => {
             </Typography>
           </Stack>
           <Divider sx={{ mt: "4%" }} />
+          <Stack spacing={2}>
+            <Typography fontSize={"30px"} fontFamily={"inherit"}>
+              Likes
+            </Typography>
+            {likePost}
+          </Stack>
+          <Divider sx={{ mt: "4%" }} />
           <Stack>
             <Typography fontSize={"30px"} fontFamily={"inherit"}>
               Comments
@@ -147,6 +180,26 @@ const ShowPost = () => {
               </List>
             </Demo>
           </Stack>
+          <Divider sx={{ mt: "4%" }} />
+
+          <form onSubmit={(e) => addComnt(e)}>
+            <Stack spacing={2}>
+              <TextField
+                label="Add comment"
+                id="outlined-size-small"
+                size="small"
+                value={comment_}
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <Button
+                variant="outlined"
+                sx={{ bgcolor: "green", width: "50px", color: "white" }}
+                type="submit"
+              >
+                Add
+              </Button>
+            </Stack>
+          </form>
         </Grid>
         <Grid item xs={6} md={4}>
           <Stack>
@@ -201,35 +254,6 @@ const ShowPost = () => {
         </Grid>
       </Grid>
     </Box>
-  );
-
-  return (
-    <Card>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          {post.title}
-        </Typography>
-        <Typography color="text.secondary">{post.description}</Typography>
-        <Typography color="text.secondary">{post.body}</Typography>
-        <Button variant="contained" color="primary">
-          Edit Post
-        </Button>
-        <Button variant="contained" color="secondary">
-          Delete Post
-        </Button>
-
-        {post.comments && post.comments.length > 0 && (
-          <div>
-            <h2>Comments</h2>
-            <ul>
-              {post.comments.map((comment, index) => (
-                <li key={index}>{comment.comment}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </CardContent>
-    </Card>
   );
 };
 

@@ -1,44 +1,48 @@
-import http from "../http-common"
+import http from "../http-common";
 
-   
-    const getUsers = () => {
-      return http.get(`/users`)
-    }
+const getUsers = () => {
+  return http.get(`/users`);
+};
 
-    const login = () => {
-        return http.post(`/users/login`)
-    }
+const login = () => {
+  return http.post(`/users/login`);
+};
 
-    const register = (firstName,lastName,email,phone,encryptedPassword) => {
-        const reqData = {
-            firstName,
-            lastName,
-            phone,
-            email,
-            encryptedPassword,
-        }
-        return http.post(`/users/add-user`,reqData)
-    }
+const register = (firstName, lastName, email, phone, encryptedPassword) => {
+  const reqData = {
+    firstName,
+    lastName,
+    phone,
+    email,
+    encryptedPassword,
+  };
+  return http.post(`/users/add-user`, reqData);
+};
 
-    const updateUser = (id,firstName,lastName,phone) => {
-        const reqData = {
-            firstName,
-            lastName,
-            phone
-        }
-        return http.post(`/users/${id}`,reqData)
-    }
+const updateUser = (id, firstName, lastName, phone) => {
+  const reqData = {
+    firstName,
+    lastName,
+    phone,
+  };
+  return http.put(`/users/${id}`, reqData);
+};
 
-    const deleteUser = (id) => {
-        return http.delete(`/users/${id}`)
-    }
+const showUser = (id) => {
+  return http.get(`/users/${id}`);
+};
 
-    const userService = {
-        getUsers,
-        login,
-        register,
-        updateUser,
-        deleteUser
-    }
+const deleteUser = (id) => {
+  return http.delete(`/users/${id}`);
+};
 
-    export default userService;
+const userService = {
+  getUsers,
+  login,
+  register,
+  updateUser,
+  deleteUser,
+  showUser
+};
+
+export default userService;
