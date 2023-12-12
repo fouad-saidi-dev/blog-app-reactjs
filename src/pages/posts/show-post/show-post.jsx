@@ -15,6 +15,7 @@ import {
   TextField,
   Avatar,
   ListItemAvatar,
+  Chip,
 } from "@mui/material";
 import postService from "../../../services/posts/post.service";
 import { styled } from "@mui/material/styles";
@@ -22,6 +23,9 @@ import commentService from "../../../services/comments/comment.service";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import commentApi from "../../../services/comments/comment-api";
 import likePosteService from "../../../services/likes/like-posts/like-posts.service";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import AddLike from "../../../components/AddLike";
+
 
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -102,8 +106,6 @@ const ShowPost = () => {
     e.preventDefault();
 
     const response = commentApi.addComment(e, comment_, postId);
-    //console.log("response"+response)
-    //setComments((prevComments) => [...prevComments, response]);
   };
 
   if (!post) {
@@ -153,10 +155,17 @@ const ShowPost = () => {
           </Stack>
           <Divider sx={{ mt: "4%" }} />
           <Stack spacing={2}>
-            <Typography fontSize={"30px"} fontFamily={"inherit"}>
-              Likes
-            </Typography>
-            {likePost}
+            <Chip 
+            color="info"
+            icon={<ThumbUpIcon color="green"/>}
+            label={`${likePost}`}
+             sx={{
+               width:"100px",
+               float:"right",
+               fontFamily:"fantasy",
+               fontSize:"20px"
+            }} />
+            <AddLike postId={postId} />
           </Stack>
           <Divider sx={{ mt: "4%" }} />
           <Stack>
