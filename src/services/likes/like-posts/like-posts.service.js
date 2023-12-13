@@ -8,11 +8,10 @@ const getLikesPost = (postId) => {
 const addLikePost = (isLike,postId) => {
 
     const reqData = {
-        isLike,
-        postId
+        isLike
     }
 
-    return httpCommon.post(`/likes/add`,reqData)
+    return httpCommon.post(`/likes/add/${postId}`,reqData)
 }
 
 const editLikePost = (likeId,isLike,postId) => {

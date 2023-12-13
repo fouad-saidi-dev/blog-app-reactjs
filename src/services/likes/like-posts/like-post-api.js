@@ -1,10 +1,10 @@
 import likePosteService from "./like-posts.service"
 
 
-const addLike = (e,like,postId) => {
+const addLike = (e,isLike,postId) => {
     e.preventDefault();
     
-    likePosteService.addLikePost(like,postId)
+    likePosteService.addLikePost(isLike,postId)
     .then((res) => {
         console.log("response",res)
     })

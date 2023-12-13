@@ -16,6 +16,7 @@ import {
   Avatar,
   ListItemAvatar,
   Chip,
+  Autocomplete,
 } from "@mui/material";
 import postService from "../../../services/posts/post.service";
 import { styled } from "@mui/material/styles";
@@ -23,9 +24,8 @@ import commentService from "../../../services/comments/comment.service";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import commentApi from "../../../services/comments/comment-api";
 import likePosteService from "../../../services/likes/like-posts/like-posts.service";
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import AddLike from "../../../components/AddLike";
-
 
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -37,7 +37,8 @@ const ShowPost = () => {
   const [filteredPosts, setFilterPosts] = useState([]);
   const [comments, setComments] = useState([]);
   const [comment_, setComment] = useState("");
-  const [likePost,setLikePosts] = useState(null)
+  const [likePost, setLikePosts] = useState(null);
+  const [searchPost, setPosts] = useState([]);
   //const [id_, setId] = useState("");
 
   // display comments
@@ -54,15 +55,16 @@ const ShowPost = () => {
   };
 
   const likesPost = () => {
-    likePosteService.getLikesPost(postId)
-    .then((res) => {
-      console.log(res)
-      setLikePosts(res.data)
-    })
-    .catch((er) => {
-      console.log(er)
-    })
-  }
+    likePosteService
+      .getLikesPost(postId)
+      .then((res) => {
+        console.log(res);
+        setLikePosts(res.data);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,7 +74,7 @@ const ShowPost = () => {
         // Filter posts created in the last 24 hours
         const endDate = new Date();
         const startDate = new Date();
-        startDate.setDate(startDate.getDate() - 5);
+        startDate.setDate(startDate.getDate() - 20);
 
         const filtered = response.data.filter((pst) => {
           const postDate = new Date(pst.createdAt);
@@ -85,6 +87,17 @@ const ShowPost = () => {
       }
     };
 
+    const searchData = async () => {
+      try {
+        const response = await postService.getPosts();
+
+        const search = response.data;
+        setPosts(search);
+      } catch (error) {
+        console.error("search doesn't work", error);
+      }
+    };
+    searchData();
     fetchData();
 
     fetchComments();
@@ -105,7 +118,7 @@ const ShowPost = () => {
   const addComnt = (e) => {
     e.preventDefault();
 
-    const response = commentApi.addComment(e, comment_, postId);
+    commentApi.addComment(e, comment_, postId);
   };
 
   if (!post) {
@@ -155,16 +168,17 @@ const ShowPost = () => {
           </Stack>
           <Divider sx={{ mt: "4%" }} />
           <Stack spacing={2}>
-            <Chip 
-            color="info"
-            icon={<ThumbUpIcon color="green"/>}
-            label={`${likePost}`}
-             sx={{
-               width:"100px",
-               float:"right",
-               fontFamily:"fantasy",
-               fontSize:"20px"
-            }} />
+            <Chip
+              color="info"
+              icon={<ThumbUpIcon color="green" />}
+              label={`${likePost}`}
+              sx={{
+                width: "100px",
+                float: "right",
+                fontFamily: "fantasy",
+                fontSize: "20px",
+              }}
+            />
             <AddLike postId={postId} />
           </Stack>
           <Divider sx={{ mt: "4%" }} />
@@ -212,10 +226,21 @@ const ShowPost = () => {
         </Grid>
         <Grid item xs={6} md={4}>
           <Stack>
-            <TextField
-              id="outlined-search"
-              label="Search field"
-              type="search"
+            <Autocomplete
+              freeSolo
+              id="free-solo-2-demo"
+              disableClearable
+              options={searchPost.map((option) => option.title)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Search input"
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
             />
           </Stack>
           <Stack sx={{ mt: "3%" }}>

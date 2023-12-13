@@ -25,7 +25,7 @@ export default function DisplayPosts(params) {
 
   return(
     <>
-    <Grid container sx={{mt:"3%"}} spacing={2}>
+    <Grid container sx={{mt:"3%"}} spacing={2} >
     {posts.map((post) => (
       <Grid item xs={12} sm={6} md={4}>
         <Card sx={{ maxWidth: 345 }}>

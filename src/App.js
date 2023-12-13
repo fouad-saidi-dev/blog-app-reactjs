@@ -9,6 +9,7 @@ import AddPost from './pages/posts/add-post/AddPost';
 import EditPost from './pages/posts/edit-post/edit-post';
 import ShowPost from './pages/posts/show-post/show-post';
 import Profile from './pages/users/profile/user-profile';
+
 function App() {
   return (
     <Router>
