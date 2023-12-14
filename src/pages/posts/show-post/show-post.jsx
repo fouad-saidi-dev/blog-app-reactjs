@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
-  Card,
-  CardContent,
   Typography,
   Button,
   Box,
@@ -26,6 +24,9 @@ import commentApi from "../../../services/comments/comment-api";
 import likePosteService from "../../../services/likes/like-posts/like-posts.service";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import AddLike from "../../../components/AddLike";
+import LikeComment from "../../../components/LikeComment";
+import likeCommentService from "../../../services/likes/like-comments/like-comment.service";
+import CountLikes from "../../../components/CountLikesComment";
 
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -39,8 +40,7 @@ const ShowPost = () => {
   const [comment_, setComment] = useState("");
   const [likePost, setLikePosts] = useState(null);
   const [searchPost, setPosts] = useState([]);
-  //const [id_, setId] = useState("");
-
+  const [likecomments,setLikeComnt] = useState(null)
   // display comments
   const fetchComments = () => {
     commentService
@@ -53,6 +53,16 @@ const ShowPost = () => {
         console.log(er);
       });
   };
+
+  const likeComment = () => {
+     likeCommentService.likecomments()
+     .then((res) => {
+      console.log("likes : ",res)
+      setLikeComnt(res.data)
+     }).catch((err) => {
+      console.log("error",err)
+     })
+  }
 
   const likesPost = () => {
     likePosteService
@@ -103,6 +113,8 @@ const ShowPost = () => {
     fetchComments();
 
     likesPost();
+
+    likeComment();
 
     postService
       .showPost(postId)
@@ -197,7 +209,8 @@ const ShowPost = () => {
                         <AccountCircleIcon />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={cmnt.comment} />
+                    <ListItemText primary={cmnt.comment} secondary={<LikeComment commentId={cmnt.commentId} />} />
+                    <CountLikes commentId={cmnt.commentId} />
                   </ListItem>
                 ))}
               </List>

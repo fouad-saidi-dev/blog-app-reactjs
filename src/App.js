@@ -9,6 +9,7 @@ import AddPost from './pages/posts/add-post/AddPost';
 import EditPost from './pages/posts/edit-post/edit-post';
 import ShowPost from './pages/posts/show-post/show-post';
 import Profile from './pages/users/profile/user-profile';
+import LikeComment from './components/LikeComment';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path='/edit-post/:postId' element={<EditPost />}></Route>
         <Route path='/post/:postId' element={<ShowPost />}></Route>
         <Route path='/profile' element={<Profile />}></Route>
+        <Route path='/like-comment/:commentId' element={<LikeComment />}></Route>
       </Routes>
     </Router>
     );
