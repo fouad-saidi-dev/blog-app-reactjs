@@ -32,12 +32,17 @@ const deletePost = (id) => {
   return httpCommon.delete(`/posts/${id}`);
 };
 
+const getPostsByUser = (id) => {
+  return httpCommon.get(`/posts/user/${id}`);
+};
+
 const postService = {
   getPosts,
   addPost,
   editPost,
   showPost,
   deletePost,
+  getPostsByUser
 };
 
 export default postService;

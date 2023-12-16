@@ -1,70 +1,83 @@
-import postService from "./post.service"
+import postService from "./post.service";
 
+const addPost = (ev, title, description, body) => {
+  ev.preventDefault();
 
-const addPost = (ev,title,description,body) => {
-
-    ev.preventDefault();
-
-    postService.addPost(title,description,body)
+  postService
+    .addPost(title, description, body)
     .then((res) => {
-        console.log(res)
+      console.log(res);
     })
     .catch((er) => {
-        console.log(er)
-    })
-}
+      console.log(er);
+    });
+};
 
-const editPost = (e,id,title,description,body) => {
-     
-    e.preventDefault()
+const editPost = (e, id, title, description, body) => {
+  e.preventDefault();
 
-    postService.editPost(id,title,description,body)
+  postService
+    .editPost(id, title, description, body)
     .then((res) => {
-        console.log(res)
+      console.log(res);
     })
     .catch((er) => {
-        console.log(er)
-    })
-
-}
-
+      console.log(er);
+    });
+};
 
 const showPost = (id) => {
-    postService.showPost(id)
+  postService
+    .showPost(id)
     .then((res) => {
-        console.log(res)
+      console.log(res);
     })
     .catch((er) => {
-        console.log(er)
-    })
-}
+      console.log(er);
+    });
+};
 
 const getPosts = () => {
-    postService.getPosts()
+  postService
+    .getPosts()
     .then((res) => {
-        console.log(res)
+      console.log(res);
     })
     .catch((er) => {
-        console.log(er)
-    })
-}
+      console.log(er);
+    });
+};
 
 const deletePost = (id) => {
-    postService.deletePost(id)
+  postService
+    .deletePost(id)
     .then((res) => {
-        console.log(res)
+      console.log(res);
     })
     .catch((er) => {
-        console.log(er)
+      console.log(er);
+    });
+};
+
+const getPostsUser = (id, setPostUser) => {
+  postService
+    .getPostsByUser(id)
+    .then((res) => {
+      console.log(res);
+      setPostUser(res.data);
     })
-}
+    .catch((er) => {
+      console.log(er);
+    });
+};
 
 const postApi = {
-   addPost,
-   editPost,
-   showPost,
-   getPosts,
-   deletePost
-}
+  addPost,
+  editPost,
+  showPost,
+  getPosts,
+  deletePost,
+  getPostsUser,
+};
 
 export default postApi;

@@ -14,7 +14,7 @@ const AddLike = (props) => {
 
         e.preventDefault()
         
-        likePostApi.addLike(e,isLike,props.postId)
+        likePostApi.addLike(e,isLike,props.postId,props.likePosts)
         setLike((prevLike) => !prevLike)
 
     }

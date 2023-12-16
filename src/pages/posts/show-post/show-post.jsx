@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   Typography,
   Button,
@@ -59,6 +59,7 @@ const ShowPost = () => {
      .then((res) => {
       console.log("likes : ",res)
       setLikeComnt(res.data)
+      
      }).catch((err) => {
       console.log("error",err)
      })
@@ -130,7 +131,8 @@ const ShowPost = () => {
   const addComnt = (e) => {
     e.preventDefault();
 
-    commentApi.addComment(e, comment_, postId);
+    commentApi.addComment(e, comment_, postId,fetchComments);
+    
   };
 
   if (!post) {
@@ -191,7 +193,7 @@ const ShowPost = () => {
                 fontSize: "20px",
               }}
             />
-            <AddLike postId={postId} />
+            <AddLike postId={postId} likePosts={likesPost} />
           </Stack>
           <Divider sx={{ mt: "4%" }} />
           <Stack>
@@ -243,7 +245,8 @@ const ShowPost = () => {
               freeSolo
               id="free-solo-2-demo"
               disableClearable
-              options={searchPost.map((option) => option.title)}
+              options={
+                searchPost.map((option) => option.title)}
               renderInput={(params) => (
                 <TextField
                   {...params}

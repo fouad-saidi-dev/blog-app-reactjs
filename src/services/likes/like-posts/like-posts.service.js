@@ -1,32 +1,32 @@
-import httpCommon from "../../http-common"
-
+import httpCommon from "../../http-common";
 
 const getLikesPost = (postId) => {
-    return httpCommon.get(`/likes/count/like/${postId}`);
-}
+  return httpCommon.get(`/likes/count/like/${postId}`);
+};
 
-const addLikePost = (isLike,postId) => {
+const addLikePost = (isLike, postId) => {
+  const reqData = {
+    isLike,
+  };
 
-    const reqData = {
-        isLike
-    }
+  return httpCommon.post(`/likes/add/${postId}`, reqData);
+};
 
-    return httpCommon.post(`/likes/add/${postId}`,reqData)
-}
+const editLikePost = (likeId, isLike, postId) => {
+  const reqData = {
+    isLike,
+    postId,
+  };
 
-const editLikePost = (likeId,isLike,postId) => {
+  return httpCommon.post(`/likes/${likeId}`, reqData);
+};
 
-    const reqData = {
-        isLike,
-        postId
-    }
 
-    return httpCommon.post(`/likes/${likeId}`,reqData)
-}
+
 const likePosteService = {
-    getLikesPost,
-    addLikePost,
-    editLikePost
-}
+  getLikesPost,
+  addLikePost,
+  editLikePost
+};
 
 export default likePosteService;
