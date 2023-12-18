@@ -27,6 +27,8 @@ import AddLike from "../../../components/AddLike";
 import LikeComment from "../../../components/LikeComment";
 import likeCommentService from "../../../services/likes/like-comments/like-comment.service";
 import CountLikes from "../../../components/CountLikesComment";
+import FolderIcon from '@mui/icons-material/Folder';
+
 
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -273,6 +275,11 @@ const ShowPost = () => {
                     style={{ textDecoration: "none" }}
                   >
                     <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                    <Avatar>
+                      <FolderIcon />
+                    </Avatar>
+                  </ListItemAvatar>
                       <ListItemText
                         primary={
                           <Typography

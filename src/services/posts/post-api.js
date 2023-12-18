@@ -26,11 +26,15 @@ const editPost = (e, id, title, description, body) => {
     });
 };
 
-const showPost = (id) => {
+const showPost = (id,setTitle,setDes,setBody) => {
   postService
     .showPost(id)
     .then((res) => {
       console.log(res);
+      const {title , description , body} = res.data;
+      setTitle(title);
+      setDes(description);
+      setBody(body);
     })
     .catch((er) => {
       console.log(er);
@@ -48,11 +52,12 @@ const getPosts = () => {
     });
 };
 
-const deletePost = (id) => {
+const deletePost = (id,getPosts) => {
   postService
     .deletePost(id)
     .then((res) => {
       console.log(res);
+      getPosts()
     })
     .catch((er) => {
       console.log(er);
