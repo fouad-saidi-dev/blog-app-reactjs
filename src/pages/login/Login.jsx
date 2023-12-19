@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Button,
-  Card,
   Checkbox,
   CssBaseline,
   FormControlLabel,
@@ -10,79 +9,35 @@ import {
   IconButton,
   InputAdornment,
   Paper,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import userService from "../../services/users/user.service";
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
-import { Copyright, Visibility, VisibilityOff } from "@mui/icons-material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import axios from "axios";
+import authApi from "../../services/auth/auth-api";
 
 const img = require("../../assets/cover-login.jpg");
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
 
 export default function Login() {
   const [email_, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
 
   const showPassword = () => {
     setShowPass(!showPass);
   };
 
-  const login = (ev) => {
-    ev.preventDefault();
-
-    const reqData = {
-      email: email_,
-      encryptedPassword: password,
-    };
-
-    userService
-      .login(reqData)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  const testLogin = async (e) => {
+  const login = (e) => {
     e.preventDefault();
-
-    const reqData = {
-      email: email_,
-      password: password,
-    };
-    const config = {
-      headers: {
-        
-      },
-    };
-    axios
-      .post(`http://localhost:8081/users/login`, reqData, config)
-      .then((response) => {
-        console.log(response)
-        const token = response.data.token;
-        const userId = response.data.userId;
-        localStorage.setItem("token", token);
-        localStorage.setItem("userId",userId);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    authApi.login(e, email_, password);
+    setOpenAlert(true);
   };
+
 
   const defaultTheme = createTheme();
 
@@ -122,8 +77,8 @@ export default function Login() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box  sx={{ mt: 1 }}>
-              <form onSubmit={(e) => testLogin(e)}>
+            <Box sx={{ mt: 1 }}>
+              <form onSubmit={(e) => login(e)}>
                 <TextField
                   margin="normal"
                   required
@@ -169,22 +124,29 @@ export default function Login() {
                 >
                   Sign In
                 </Button>
-                
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
+
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="#" variant="body2">
+                      Forgot password?
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="#" variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid></form>
+              </form>
             </Box>
           </Box>
         </Grid>
+        <Snackbar
+          open={openAlert}
+          autoHideDuration={6000}
+          onClose={() => setOpenAlert(false)}
+          message="Login successfully!"
+        />
       </Grid>
     </ThemeProvider>
   );
