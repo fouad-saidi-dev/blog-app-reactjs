@@ -1,13 +1,15 @@
-import { React, useEffect, useState } from "react";
+import { React, lazy, useEffect, useState } from "react";
 import userService from "../../../services/users/user.service";
 import { Avatar, Box, Button, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
 import userApi from "../../../services/users/user-api";
+import Alert from "../../../components/Alert";
 
 const Profile = (params) => {
   const [fname_, setFname] = useState("");
   const [lname_, setLname] = useState("");
   const [phone_, setPhone] = useState("");
   const [email_, setEmail] = useState("");
+  const [open,setOpenAlert] = useState(false)
 
   const userId = localStorage.getItem("userId");
 
@@ -32,6 +34,7 @@ const Profile = (params) => {
     e.preventDefault();
 
     userApi.updateUser(e,userId,fname_,lname_,phone_)
+    setOpenAlert(true)
   }
 
   useEffect(() => {
@@ -73,6 +76,7 @@ const Profile = (params) => {
                     label={'Last Name'}
                     value={lname_}
                     variant="outlined"
+                    onLoad={lazy}
                     onChange={(e) => setLname(e.target.value)}
                     />
                     <TextField
@@ -91,6 +95,7 @@ const Profile = (params) => {
             </Paper>
         </Grid>
         </Grid>
+        <Alert openAlert={open} message={"Updated Success"} onClose={() => setOpenAlert(false)} />
         </Box>
   );
 };

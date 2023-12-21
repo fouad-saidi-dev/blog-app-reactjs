@@ -4,16 +4,11 @@ import { IconButton } from "@mui/material";
 import { useParams } from "react-router-dom";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import axios from "axios";
+import ShowPost from "../pages/posts/show-post/show-post";
 
 const LikeComment = (props) => {
   const [isLike, setLike] = useState(true);
-  //const { commentId } = useParams();
-
-  const addlike = (e) => {
-    e.preventDefault();
-    likeCommentApi.addLikeToComment(e, isLike, props.commentId);
-    
-  };
+  
 
   const like = async (e) => {
     e.preventDefault();
@@ -48,6 +43,7 @@ const LikeComment = (props) => {
       onClick={(e) => {
         like(e);
       }}
+      
       color={isLike ? "primary" : "default"}
     >
       <ThumbUpIcon />

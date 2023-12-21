@@ -15,6 +15,7 @@ import {
   ListItemAvatar,
   Chip,
   Autocomplete,
+  CircularProgress,
 } from "@mui/material";
 import postService from "../../../services/posts/post.service";
 import { styled } from "@mui/material/styles";
@@ -27,8 +28,7 @@ import AddLike from "../../../components/AddLike";
 import LikeComment from "../../../components/LikeComment";
 import likeCommentService from "../../../services/likes/like-comments/like-comment.service";
 import CountLikes from "../../../components/CountLikesComment";
-import FolderIcon from '@mui/icons-material/Folder';
-
+import FolderIcon from "@mui/icons-material/Folder";
 
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -42,7 +42,7 @@ const ShowPost = () => {
   const [comment_, setComment] = useState("");
   const [likePost, setLikePosts] = useState(null);
   const [searchPost, setPosts] = useState([]);
-  const [likecomments,setLikeComnt] = useState(null)
+  const [likecomments, setLikeComnt] = useState(null);
   // display comments
   const fetchComments = () => {
     commentService
@@ -56,16 +56,18 @@ const ShowPost = () => {
       });
   };
 
+  // count like of comment
   const likeComment = () => {
-     likeCommentService.likecomments()
-     .then((res) => {
-      console.log("likes : ",res)
-      setLikeComnt(res.data)
-      
-     }).catch((err) => {
-      console.log("error",err)
-     })
-  }
+    likeCommentService
+      .likecomments()
+      .then((res) => {
+        console.log("likes : ", res);
+        setLikeComnt(res.data);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
 
   const likesPost = () => {
     likePosteService
@@ -133,12 +135,17 @@ const ShowPost = () => {
   const addComnt = (e) => {
     e.preventDefault();
 
-    commentApi.addComment(e, comment_, postId,fetchComments);
-    
+    commentApi.addComment(e, comment_, postId, fetchComments);
   };
 
   if (!post) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Box sx={{ display: "flex" , justifyContent:"center",mt:"15%" }}>
+          <CircularProgress />
+        </Box>
+      </div>
+    );
   }
 
   return (
@@ -213,7 +220,10 @@ const ShowPost = () => {
                         <AccountCircleIcon />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={cmnt.comment} secondary={<LikeComment commentId={cmnt.commentId} />} />
+                    <ListItemText
+                      primary={cmnt.comment}
+                      secondary={<LikeComment commentId={cmnt.commentId} />}
+                    />
                     <CountLikes commentId={cmnt.commentId} />
                   </ListItem>
                 ))}
@@ -247,8 +257,7 @@ const ShowPost = () => {
               freeSolo
               id="free-solo-2-demo"
               disableClearable
-              options={
-                searchPost.map((option) => option.title)}
+              options={searchPost.map((option) => option.title)}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -275,11 +284,11 @@ const ShowPost = () => {
                     style={{ textDecoration: "none" }}
                   >
                     <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                    <Avatar>
-                      <FolderIcon />
-                    </Avatar>
-                  </ListItemAvatar>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <FolderIcon />
+                        </Avatar>
+                      </ListItemAvatar>
                       <ListItemText
                         primary={
                           <Typography
