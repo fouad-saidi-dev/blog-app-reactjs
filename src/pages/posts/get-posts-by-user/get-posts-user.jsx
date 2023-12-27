@@ -1,6 +1,8 @@
 import { useState, React, useEffect } from "react";
 import postApi from "../../../services/posts/post-api";
 import {
+  Box,
+  CircularProgress,
   IconButton,
   Paper,
   Stack,
@@ -16,6 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+import ProgressCircul from "../../../components/ProgressCircul";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -55,6 +58,11 @@ const GetPostsUser = () => {
     getPosts();
   }, [userId]);
 
+  if (posts.length == 0) {
+    return <ProgressCircul condition={posts.length} />;
+  }
+
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 400 }} aria-label="customized table">
@@ -79,13 +87,20 @@ const GetPostsUser = () => {
                     width: "20px",
                   }}
                 >
-                  <IconButton aria-label="delete" size="large" onClick={() => deletePost(row.postId)}>
+                  <IconButton
+                    aria-label="delete"
+                    size="large"
+                    onClick={() => deletePost(row.postId)}
+                  >
                     <DeleteIcon fontSize="inherit" />
                   </IconButton>
-                  <Link to={`/edit-post/${row.postId}`} style={{textDecoration:"none"}}>
-                  <IconButton aria-label="edit" size="large">
-                    <EditIcon fontSize="inherit" />
-                  </IconButton>
+                  <Link
+                    to={`/edit-post/${row.postId}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <IconButton aria-label="edit" size="large">
+                      <EditIcon fontSize="inherit" />
+                    </IconButton>
                   </Link>
                 </Stack>
               </StyledTableCell>

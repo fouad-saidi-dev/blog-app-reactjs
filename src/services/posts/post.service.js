@@ -1,7 +1,8 @@
+import http from "../auth/http";
 import httpCommon from "../http-common";
 
 const getPosts = () => {
-  return httpCommon.get("/posts");
+  return http.get("/posts");
 };
 
 const addPost = (title, description, body) => {

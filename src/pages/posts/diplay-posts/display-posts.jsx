@@ -55,8 +55,8 @@ export default function DisplayPosts(params) {
         }} />
         <CardActions>
         
-        <Link to={`/post/${post.postId}`} className='btn btn-success me-2'>
-         Edit
+        <Link to={`/post/${post.postId}`} style={{textDecoration:"none"}} className='btn btn-success me-2'>
+         show more
         </Link>
           {/* <Button size="small" color="primary">
             Share

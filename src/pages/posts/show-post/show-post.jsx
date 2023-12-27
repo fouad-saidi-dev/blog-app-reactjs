@@ -29,6 +29,7 @@ import LikeComment from "../../../components/LikeComment";
 import likeCommentService from "../../../services/likes/like-comments/like-comment.service";
 import CountLikes from "../../../components/CountLikesComment";
 import FolderIcon from "@mui/icons-material/Folder";
+import fileApi from "../../../services/files/file-api";
 
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -43,6 +44,8 @@ const ShowPost = () => {
   const [likePost, setLikePosts] = useState(null);
   const [searchPost, setPosts] = useState([]);
   const [likecomments, setLikeComnt] = useState(null);
+  const [image, setImage] = useState(null);
+
   // display comments
   const fetchComments = () => {
     commentService
@@ -101,6 +104,10 @@ const ShowPost = () => {
         console.error("Error fetching posts:", error);
       }
     };
+    const fileName = `${postId}${`.png`}`;
+    const getImage = () => {
+      fileApi.getFile(fileName, setImage);
+    };
 
     const searchData = async () => {
       try {
@@ -120,6 +127,8 @@ const ShowPost = () => {
     likesPost();
 
     likeComment();
+
+    getImage();
 
     postService
       .showPost(postId)
@@ -141,7 +150,7 @@ const ShowPost = () => {
   if (!post) {
     return (
       <div>
-        <Box sx={{ display: "flex" , justifyContent:"center",mt:"15%" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", mt: "15%" }}>
           <CircularProgress />
         </Box>
       </div>
@@ -161,6 +170,20 @@ const ShowPost = () => {
               {post.title}
             </Typography>
           </Stack>
+          {image != null ?
+            <Stack
+              spacing={2}
+              direction="row"
+              sx={{ mt: "2%" }}
+              alignItems="center"
+            >
+              <img
+                src={`http://localhost:8081/files/get/${post.postId}.png`}
+                alt={post.title}
+                style={{ width: "80%" }}
+              />
+            </Stack> : <br />
+          }
           <Stack
             spacing={2}
             direction="row"

@@ -3,12 +3,14 @@ import {
   Button,
   Paper,
   Snackbar,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { React, useEffect, useState } from "react";
 import postApi from "../../../services/posts/post-api";
 import { useParams } from "react-router-dom";
+import fileApi from "../../../services/files/file-api";
 
 export default function EditPost(params) {
   const [title_, setTitle] = useState("");
@@ -17,6 +19,7 @@ export default function EditPost(params) {
   const { postId } = useParams();
   const [post, setPost] = useState(null);
   const [openAlert, setOpenAlert] = useState(false);
+  const [picture, setPicture] = useState(null);
 
   const edit_post = (e, id) => {
     e.preventDefault();
@@ -26,6 +29,14 @@ export default function EditPost(params) {
 
   const getPost = () => {
     postApi.showPost(postId, setTitle, setDescrip, setBody);
+  };
+
+  const addPictureToPost = (e) => {
+    fileApi.uploadImage(e, postId, picture);
+  };
+
+  const handleChange = (e) => {
+    setPicture(e.target.files[0]);
   };
 
   useEffect(() => {
@@ -96,6 +107,17 @@ export default function EditPost(params) {
             >
               Add
             </Button>
+          </form>
+        </Box>
+        <Box>
+          <form
+            onSubmit={(e) => addPictureToPost(e)}
+            encType="multipart/form-data"
+          >
+            <Stack spacing={2}>
+              <input type="file" onChange={handleChange} />
+              <button type="submit">Upload</button>
+            </Stack>
           </form>
         </Box>
         <Snackbar
