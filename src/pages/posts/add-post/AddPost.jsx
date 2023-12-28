@@ -41,13 +41,6 @@ export default function AddPost(params) {
     setOpenAlert(true);
   };
 
-  const handleChange = (e) => {
-    setPicture(e.target.files[0]);
-  };
-
-  const addPictureToPost = (e) => {
-    fileApi.uploadAvatar(e, picture);
-  };
 
   const edit_post = (e, id) => {
     e.preventDefault();

@@ -2,7 +2,15 @@ import { useState, React, useEffect } from "react";
 import postApi from "../../../services/posts/post-api";
 import {
   Box,
+  Button,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
+  Grid,
   IconButton,
   Paper,
   Stack,
@@ -12,13 +20,17 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
   tableCellClasses,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import ProgressCircul from "../../../components/ProgressCircul";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -43,6 +55,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const GetPostsUser = () => {
   const [posts, setPosts] = useState([]);
   const userId = localStorage.getItem("userId");
+  const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const getPosts = () => {
     postApi.getPostsUser(userId, setPosts);
@@ -62,6 +85,65 @@ const GetPostsUser = () => {
     return <ProgressCircul condition={posts.length} />;
   }
 
+  return (
+    <Box sx={{ flexGrow: 2 }}>
+      <Typography align="center" fontFamily={"monospace"} fontSize={"50px"}>
+        YOUR POSTS
+      </Typography>
+      <Divider sx={{ width: "50%", mr: "auto", ml: "auto" }} />
+      <Grid container spacing={2} minHeight={200}>
+        {posts.map((post, index) => (
+          <>
+            <Grid xs display="flex" justifyContent="center" alignItems="center">
+              <Button
+                variant="outlined"
+                sx={{ mr: "4%" }}
+                onClick={handleClickOpen}
+              >
+                Open your post
+              </Button>
+              <Dialog
+                fullScreen={fullScreen}
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="responsive-dialog-title"
+                sx={{
+                  bgcolor: "turquoise",
+                }}
+              >
+                <DialogTitle id="responsive-dialog-title">
+                  {post.title}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText>{post.description}</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <IconButton autoFocus onClick={handleClose}>
+                    <CancelIcon fontSize="inherit" />
+                  </IconButton>
+                  <IconButton
+                    aria-label="delete"
+                    size="large"
+                    onClick={() => deletePost(post.postId)}
+                  >
+                    <DeleteIcon fontSize="inherit" />
+                  </IconButton>
+                  <Link
+                    to={`/edit-post/${post.postId}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <IconButton aria-label="edit" size="large">
+                      <EditIcon fontSize="inherit" />
+                    </IconButton>
+                  </Link>
+                </DialogActions>
+              </Dialog>
+            </Grid>
+          </>
+        ))}
+      </Grid>
+    </Box>
+  );
 
   return (
     <TableContainer component={Paper}>

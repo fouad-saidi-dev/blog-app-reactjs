@@ -41,11 +41,12 @@ const showPost = (id,setTitle,setDes,setBody) => {
     });
 };
 
-const getPosts = () => {
+const getPosts = (setPosts) => {
   postService
     .getPosts()
     .then((res) => {
       console.log(res);
+      setPosts(res.data);
     })
     .catch((er) => {
       console.log(er);

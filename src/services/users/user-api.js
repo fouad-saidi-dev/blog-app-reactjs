@@ -37,10 +37,23 @@ const getUser = (id, setFirstName) => {
     });
 };
 
+const displayUsers = (setUsers) => {
+  userService
+    .getUsers()
+    .then((response) => {
+      console.log(response);
+      setUsers(response.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 const userApi = {
   updateUser,
   deleteUser,
   getUser,
+  displayUsers,
 };
 
 export default userApi;

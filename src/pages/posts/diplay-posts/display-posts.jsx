@@ -1,22 +1,15 @@
 import { React, useEffect, useState } from "react";
 import postService from "../../../services/posts/post.service";
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Grid, Typography } from "@mui/material";
+import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import postApi from "../../../services/posts/post-api";
 
 
 export default function DisplayPosts(params) {
   const [posts, setPosts] = useState([]);
 
-  const displayPosts = async () => {
-    await postService
-      .getPosts()
-      .then((res) => {
-        console.log(res);
-        setPosts(res.data);
-      })
-      .catch((er) => {
-        console.log(er);
-      });
+  const displayPosts = () => {
+     postApi.getPosts(setPosts)
   };
 
   useEffect(() => {
@@ -24,11 +17,11 @@ export default function DisplayPosts(params) {
   }, []);
 
   return(
-    <>
-    <Grid container sx={{mt:"3%"}} spacing={2} >
+    <Box sx={{ flexGrow: 2 }}>
+    <Grid container minHeight={400} mt={"2%"} mb={"2%"} spacing={2} >
     {posts.map((post) => (
-      <Grid item xs={12} sm={6} md={4}>
-        <Card sx={{ maxWidth: 345 }}>
+      <Grid item xs={12} sm={6} md={4} justifyContent="center" display="flex">
+        <Card sx={{ maxWidth: 345 , width:"400px"}}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -64,6 +57,6 @@ export default function DisplayPosts(params) {
         </CardActions>
       </Card>
      </Grid>
-    ))} </Grid></>
+    ))} </Grid></Box>
   )
 }

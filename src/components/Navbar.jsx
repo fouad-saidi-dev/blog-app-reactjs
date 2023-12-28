@@ -19,21 +19,21 @@ import { useEffect } from "react";
 
 //const pages = ["Blog", "Posts", "Contact"];
 const settings = [
-  {page : "Profile" , link : "/profile"},
-  {page : "Account" , link : "/profile"},
-  {page : "posts" , link : "/posts"},
-  {page : "Logout"}
+  { page: "Profile", link: "/profile" },
+  { page: "Account", link: "/" },
+  { page: "posts", link: "/posts-user" },
+  { page: "Logout", link: "/" },
 ];
 const pages = [
-  {page : "Blog",link : "/"},
-  {page : "Posts",link : "/posts"},
-  {page : "Contact",link : "/contact"},
-]
+  { page: "Blog", link: "/" },
+  { page: "Posts", link: "/posts" },
+  { page: "Contact", link: "/contact" },
+];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [fname_,setFname] = React.useState("");
+  const [fname_, setFname] = React.useState("");
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -60,12 +60,12 @@ function ResponsiveAppBar() {
   const userId = localStorage.getItem("userId");
 
   const getUser = () => {
-     userApi.getUser(userId,setFname)
-  }
+    userApi.getUser(userId, setFname);
+  };
 
   useEffect(() => {
-    getUser()
-  },[userId])
+    getUser();
+  }, [userId]);
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -160,12 +160,16 @@ function ResponsiveAppBar() {
 
           <Box sx={{ flexGrow: 0 }}>
             {localStorage.getItem("token") == "null" ? (
-              <Button sx={{bgcolor: "red"}} href="/login">login</Button>
+              <Button sx={{ bgcolor: "red" }} href="/login">
+                login
+              </Button>
             ) : (
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar  >
-                  <Typography fontSize={'30px'} >{fname_.charAt().toLocaleUpperCase()} </Typography> 
+                  <Avatar>
+                    <Typography fontSize={"30px"}>
+                      {fname_.charAt().toLocaleUpperCase()}{" "}
+                    </Typography>
                   </Avatar>
                 </IconButton>
               </Tooltip>
@@ -188,8 +192,11 @@ function ResponsiveAppBar() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting.page} onClick={handleCloseUserMenu}>
-                  <Link to={setting.link} style={{textDecoration:"none",color:"black"}}>
-                  <Typography textAlign="center">{setting.page}</Typography>
+                  <Link
+                    to={setting.link}
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    <Typography textAlign="center">{setting.page}</Typography>
                   </Link>
                 </MenuItem>
               ))}
