@@ -30,6 +30,7 @@ import likeCommentService from "../../../services/likes/like-comments/like-comme
 import CountLikes from "../../../components/CountLikesComment";
 import FolderIcon from "@mui/icons-material/Folder";
 import fileApi from "../../../services/files/file-api";
+import tagApi from "../../../services/tags/tag-api";
 
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -41,11 +42,11 @@ const ShowPost = () => {
   const [filteredPosts, setFilterPosts] = useState([]);
   const [comments, setComments] = useState([]);
   const [comment_, setComment] = useState("");
-  const [likePost, setLikePosts] = useState(null);
+  const [likePost, setLikePosts] = useState(0);
   const [searchPost, setPosts] = useState([]);
-  const [likecomments, setLikeComnt] = useState(null);
+  const [likecomments, setLikeComnt] = useState(0);
   const [image, setImage] = useState(null);
-
+  const [tags, setTags] = useState([]);
   // display comments
   const fetchComments = () => {
     commentService
@@ -82,6 +83,10 @@ const ShowPost = () => {
       .catch((er) => {
         console.log(er);
       });
+  };
+
+  const getTagsByPostId__ = () => {
+    tagApi.getTagsByPostId_(postId, setTags);
   };
 
   useEffect(() => {
@@ -130,6 +135,8 @@ const ShowPost = () => {
 
     getImage();
 
+    getTagsByPostId__();
+
     postService
       .showPost(postId)
       .then((res) => {
@@ -170,7 +177,7 @@ const ShowPost = () => {
               {post.title}
             </Typography>
           </Stack>
-          {image != null ?
+          {image != null ? (
             <Stack
               spacing={2}
               direction="row"
@@ -182,8 +189,10 @@ const ShowPost = () => {
                 alt={post.title}
                 style={{ width: "80%" }}
               />
-            </Stack> : <br />
-          }
+            </Stack>
+          ) : (
+            <br />
+          )}
           <Stack
             spacing={2}
             direction="row"
@@ -273,6 +282,25 @@ const ShowPost = () => {
               </Button>
             </Stack>
           </form>
+          <Divider sx={{ mt: "4%" }} />
+          <Stack direction={"column"} spacing={2}>
+            <Typography fontSize={"30px"} fontFamily={"inherit"}>
+              Tags
+            </Typography>
+          </Stack>
+          <Stack direction={"row"} spacing={2}>
+            {tags.map((tag, index) => (
+              <Link to={`/posts/${tag.name}`}>
+              <Chip
+                label={`#${tag.name}`}
+                color="success"
+                variant="outlined"
+                sx={{ width: "100px" }}
+                clickable
+              />
+              </Link>
+            ))}
+          </Stack>
         </Grid>
         <Grid item xs={6} md={4}>
           <Stack>

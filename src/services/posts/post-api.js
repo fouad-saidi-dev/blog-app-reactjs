@@ -1,3 +1,4 @@
+import tagService from "../tags/tag.service";
 import postService from "./post.service";
 
 const addPost = (ev, title, description, body) => {
@@ -77,6 +78,16 @@ const getPostsUser = (id, setPostUser) => {
     });
 };
 
+const getPostsByTagName_ = async(tagName,setPosts) => {
+   try {
+    const response = await postService.getPostsByTagName(tagName)
+    setPosts(response.data)
+    console.log("Posts",response.data)
+   } catch (error) {
+    console.log("Eroor",error)
+   } 
+}
+
 const postApi = {
   addPost,
   editPost,
@@ -84,6 +95,7 @@ const postApi = {
   getPosts,
   deletePost,
   getPostsUser,
+  getPostsByTagName_
 };
 
 export default postApi;

@@ -1,9 +1,8 @@
 import { Box, CircularProgress } from "@mui/material";
-import { useState } from "react";
 
-const ProgressCircul = (props) => {
+const ProgressCircul = ({condition}) => {
   
-  if (props.condition == 0 ) {
+  if (condition == 0 ) {
     return (
       <div>
         <Box sx={{ display: "flex", justifyContent: "center", mt: "15%" }}>

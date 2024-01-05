@@ -37,13 +37,18 @@ const getPostsByUser = (id) => {
   return httpCommon.get(`/posts/user/${id}`);
 };
 
+const getPostsByTagName = (tagName) => {
+  return httpCommon.get(`/posts/tag/${tagName}`);
+};
+
 const postService = {
   getPosts,
   addPost,
   editPost,
   showPost,
   deletePost,
-  getPostsByUser
+  getPostsByUser,
+  getPostsByTagName,
 };
 
 export default postService;
