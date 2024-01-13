@@ -1,11 +1,10 @@
-import tagService from "../tags/tag.service";
 import postService from "./post.service";
 
-const addPost = (ev, title, description, body) => {
+const addPost = (ev, title, description, body,tags) => {
   ev.preventDefault();
 
   postService
-    .addPost(title, description, body)
+    .addPost(title, description, body,tags)
     .then((res) => {
       console.log(res);
     })
