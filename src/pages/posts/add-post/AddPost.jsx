@@ -14,6 +14,7 @@ import postApi from "../../../services/posts/post-api";
 import fileApi from "../../../services/files/file-api";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
+import TextEditor from "../../../components/TextEditor";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -32,14 +33,14 @@ export default function AddPost(params) {
   const [body_, setBody] = useState("");
   const [description_, setDescrip] = useState("");
   const [openAlert, setOpenAlert] = useState(false);
-  const [tagInput, setTagInput] = useState('');
+  const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState([]);
   const [picture, setPicture] = useState(null);
 
   const add_post = (e) => {
     e.preventDefault();
 
-    postApi.addPost(e, title_, description_, body_,tags);
+    postApi.addPost(e, title_, description_, body_, tags);
     setOpenAlert(true);
   };
 
@@ -48,14 +49,18 @@ export default function AddPost(params) {
   };
 
   const handleRemoveTag = (tagToRemove) => {
-    setTags(tags.filter(tag => tag !== tagToRemove));
+    setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
   const handleAddTag = () => {
-    if (tagInput.trim() !== '' && !tags.includes(tagInput.trim())) {
+    if (tagInput.trim() !== "" && !tags.includes(tagInput.trim())) {
       setTags([...tags, tagInput.trim()]);
-      setTagInput('');
+      setTagInput("");
     }
+  };
+
+  const handleChange = (content) => {
+    setBody(content);
   };
 
   return (
@@ -88,7 +93,7 @@ export default function AddPost(params) {
               onChange={(ev) => setTitle(ev.target.value)}
               required
               label="Title"
-              sx={{ marginTop: "10px", width: "400px" }}
+              sx={{ marginTop: "10px", width: "600px" }}
             />{" "}
             <br />
             <TextField
@@ -97,42 +102,36 @@ export default function AddPost(params) {
               onChange={(ev) => setDescrip(ev.target.value)}
               required
               label="Description"
-              sx={{ marginTop: "10px", width: "400px" }}
+              sx={{ marginTop: "10px", width: "600px" }}
             />{" "}
             <br />
+            <Typography>Body Post :</Typography>
+            <TextEditor value={body_} onChange={handleChange} />
+            <br />
+            <br />
+            <Typography>Tags:</Typography>
+            <div>
+              {tags.map((tag) => (
+                <Chip
+                  key={tag}
+                  label={tag}
+                  onDelete={() => handleRemoveTag(tag)}
+                  color="primary"
+                  variant="outlined"
+                />
+              ))}
+            </div>
             <TextField
-              name="body"
-              value={body_}
-              onChange={(ev) => setBody(ev.target.value)}
-              required
-              multiline
-              rows={7}
-              label="Body"
-              sx={{ marginTop: "10px", width: "400px" }}
-            />{" "}
-            <br />
-            <label>Tags:</label>
-        <div>
-          {tags.map(tag => (
-            <Chip
-              key={tag}
-              label={tag}
-              onDelete={() => handleRemoveTag(tag)}
-              color="primary"
-              variant="outlined"
+              type="text"
+              value={tagInput}
+              onChange={handleTagChange}
+              label="Tags"
+              sx={{width:"80%"}}
             />
-          ))}
-        </div>
-        <TextField
-          type="text"
-          value={tagInput}
-          onChange={handleTagChange}
-          label="Tags"
-        />
-        <Button type="button" onClick={handleAddTag}>
-          Add Tag
-        </Button>
-        <br />
+            <Button type="button" sx={{float:"right"}} onClick={handleAddTag}>
+              Add Tag
+            </Button>
+            <br />
             <Button
               type="submit"
               color="primary"

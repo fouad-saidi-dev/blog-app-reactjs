@@ -102,7 +102,7 @@ const Profile = (params) => {
                   sx={{
                     width: "80px",
                     height: "80px",
-                    justifyContent: "center",
+                    justifyContent:"center"
                   }}
                 />
               )}
@@ -123,9 +123,14 @@ const Profile = (params) => {
               onSubmit={(e) => uploadAvatar(e)}
               encType="multipart/form-data"
             >
-              <Stack spacing={2}>
-                <input type="file" onChange={handleFileChange} />
-                <button type="submit">Upload</button>
+              <Stack spacing={2} sx={{m:"4px"}}>
+                <TextField type="file" onChange={handleFileChange} />
+                <Button type="submit" variant="contained" size="small" sx={{
+                  width:"70px"
+                }}>
+                  Upload
+                  </Button>
+                <br />
               </Stack>
             </form>
           </Paper>

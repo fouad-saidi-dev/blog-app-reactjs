@@ -217,9 +217,8 @@ const ShowPost = () => {
               fontFamily={"monospace"}
               fontSize={"22px"}
               color={"black"}
-            >
-              {post.body}
-            </Typography>
+              dangerouslySetInnerHTML={{ __html: post.body }}
+            />
           </Stack>
           <Divider sx={{ mt: "4%" }} />
           <Stack spacing={2}>
