@@ -5,12 +5,12 @@ const getPosts = () => {
   return http.get("/posts");
 };
 
-const addPost = (title, description, body,tags) => {
+const addPost = (title, description, body, tags) => {
   const reqData = {
     title,
     description,
     body,
-    tags
+    tags,
   };
 
   return httpCommon.post("/posts/create", reqData);

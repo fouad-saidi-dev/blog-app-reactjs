@@ -19,6 +19,7 @@ import GetPostsUser from "./pages/posts/get-posts-by-user/get-posts-user";
 import PostsTag from "./pages/posts/posts-tag/posts-tag";
 import Each from "./components/Each";
 import TextEditor from "./components/TextEditor";
+import DataPosts from "./pages/posts/data-table-posts/data-table-posts";
 
 function App() {
   const isAuthenticed = localStorage.getItem("token") != "null";
@@ -28,6 +29,7 @@ function App() {
     { path: "/edit-post/:postId", component: <EditPost /> },
     { path: "/profile", component: <Profile /> },
     { path: "/posts-user", component: <GetPostsUser /> },
+    { path: "/data-posts", component: <DataPosts /> },
   ];
   return (
     <Router>

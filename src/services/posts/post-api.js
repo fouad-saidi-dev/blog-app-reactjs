@@ -1,10 +1,10 @@
 import postService from "./post.service";
 
-const addPost = (ev, title, description, body,tags) => {
+const addPost = (ev, title, description, body, tags) => {
   ev.preventDefault();
 
   postService
-    .addPost(title, description, body,tags)
+    .addPost(title, description, body, tags)
     .then((res) => {
       console.log(res);
     })
@@ -26,12 +26,12 @@ const editPost = (e, id, title, description, body) => {
     });
 };
 
-const showPost = (id,setTitle,setDes,setBody) => {
+const showPost = (id, setTitle, setDes, setBody) => {
   postService
     .showPost(id)
     .then((res) => {
       console.log(res);
-      const {title , description , body} = res.data;
+      const { title, description, body } = res.data;
       setTitle(title);
       setDes(description);
       setBody(body);
@@ -53,12 +53,13 @@ const getPosts = (setPosts) => {
     });
 };
 
-const deletePost = (id,getPosts) => {
+const deletePost = (id, getPosts, setOpenAlert) => {
   postService
     .deletePost(id)
     .then((res) => {
       console.log(res);
-      getPosts()
+      getPosts();
+      setOpenAlert(true);
     })
     .catch((er) => {
       console.log(er);
@@ -77,15 +78,15 @@ const getPostsUser = (id, setPostUser) => {
     });
 };
 
-const getPostsByTagName_ = async(tagName,setPosts) => {
-   try {
-    const response = await postService.getPostsByTagName(tagName)
-    setPosts(response.data)
-    console.log("Posts",response.data)
-   } catch (error) {
-    console.log("Eroor",error)
-   } 
-}
+const getPostsByTagName_ = async (tagName, setPosts) => {
+  try {
+    const response = await postService.getPostsByTagName(tagName);
+    setPosts(response.data);
+    console.log("Posts", response.data);
+  } catch (error) {
+    console.log("Eroor", error);
+  }
+};
 
 const postApi = {
   addPost,
@@ -94,7 +95,7 @@ const postApi = {
   getPosts,
   deletePost,
   getPostsUser,
-  getPostsByTagName_
+  getPostsByTagName_,
 };
 
 export default postApi;

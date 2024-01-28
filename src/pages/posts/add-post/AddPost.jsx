@@ -43,6 +43,7 @@ export default function AddPost(params) {
     postApi.addPost(e, title_, description_, body_, tags);
     setOpenAlert(true);
   };
+  console.log(tags)
 
   const handleTagChange = (e) => {
     setTagInput(e.target.value);

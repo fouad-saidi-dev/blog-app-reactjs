@@ -1,15 +1,15 @@
 import { Snackbar } from '@mui/material';
 import React from 'react';
 
-const Alert = (props) => {
+const Alert = ({openAlert,onClose,message}) => {
 
 
     return (
         <Snackbar
-          open={props.openAlert}
+          open={openAlert}
           autoHideDuration={6000}
-          onClose={props.onClose}
-          message={`${props.message}`}
+          onClose={onClose}
+          message={message}
         />
     )
 }
