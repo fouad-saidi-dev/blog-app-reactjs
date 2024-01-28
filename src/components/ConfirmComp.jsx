@@ -19,7 +19,7 @@ const ConfirmComp = ({}) => {
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpen(false); 
   };
 
   return (
